@@ -41,7 +41,7 @@ public with sharing class TriggerBestPracticeTest {
      * Trigger should only fire on insert.
      */
     @IsTest 
-    static void testAccountTrigger_setTypeProspect() {
+    private static void testAccountTrigger_setTypeProspect() {
         // Prepare the test data
         List<Account> accountTypeProspect = new List<Account>();
         List<Account> accountTypeNotChange = new List<Account>();
@@ -88,7 +88,7 @@ public with sharing class TriggerBestPracticeTest {
     * Trigger should only fire on insert.
     */
     @IsTest 
-    static void testAccountTrigger_addressCopy() {
+    private static void testAccountTrigger_addressCopy() {
         // Prepare the test data
         List<Account> accountsToInsert = new List<Account>();
         for (Integer i = 0; i < 200; i++) {
@@ -147,7 +147,7 @@ public with sharing class TriggerBestPracticeTest {
     * Trigger should only fire on insert.
     */
     @IsTest 
-    static void testAccountTrigger_setRating() {
+    private static void testAccountTrigger_setRating() {
         // Prepare the test data
         List<Account> accountsToInsert = new List<Account>();
         List<Account> accountsNotHot = new List<Account>();
@@ -207,7 +207,7 @@ public with sharing class TriggerBestPracticeTest {
     * Trigger should only fire on insert.
     */
     @IsTest
-    static void testAccountTrigger_defaultContact() {
+    private static void testAccountTrigger_defaultContact() {
         // Prepare the test data
         List<Account> accountsToInsert = new List<Account>();
         for (Integer i = 0; i < 400; i++) {
@@ -261,7 +261,6 @@ public with sharing class TriggerBestPracticeTest {
     private static void testAnotherOpportunityTrigger_setType() {
         Account acc = new Account(Name = 'Test Account');
         insert acc;
-
         Integer numberOfOpps = 5;
         for (Integer i = 0; i < numberOfOpps; i++) {
             Opportunity opp = new Opportunity(
@@ -273,8 +272,8 @@ public with sharing class TriggerBestPracticeTest {
             insert opp;
         }
 
-        List<Opportunity> opps = [SELECT Id, Name, Type FROM Opportunity WHERE AccountId = :acc.Id];
-        System.assertEquals(numberOfOpps, opps.size(), 'Number of Opportunities created is incorrect.');
+        List<Opportunity> opps = [SELECT Id, Name, StageName, AccountId, CloseDate, Type FROM Opportunity WHERE AccountId = :acc.Id];
+        System.assertEquals(5, opps.size(), 'Number of Opportunities created is incorrect.');
         for (Opportunity opp : opps) {
             System.assertEquals('New Customer', opp.Type, 'Opportunity ' + opp.Name + ' Type is incorrect.');
         }
@@ -444,7 +443,7 @@ public with sharing class TriggerBestPracticeTest {
 
         delete oppsToInsert;        
         
-        undelete oppsToInsert; 
+        undelete oppsToInsert;
 
         Test.startTest();
         List<Opportunity> opps = [SELECT Id, Name, Primary_Contact__c FROM Opportunity WHERE AccountId = :acc.Id];
@@ -477,7 +476,7 @@ public with sharing class TriggerBestPracticeTest {
     * Trigger should only fire on update.
     */
     @IsTest
-    static void testOpportunityTrigger_amountValidation() {
+    private static void testOpportunityTrigger_amountValidation() {
         // Prepare the test data
         List<Opportunity> opportunitiesToInsert = new List<Opportunity>();
         for (Integer i = 0; i < 400; i++) {
@@ -528,7 +527,7 @@ public with sharing class TriggerBestPracticeTest {
     * Trigger should only fire on delete.
     */
     @IsTest
-    static void testOpportunityTrigger_deleteCloseWonOpportunity() {
+    private static void testOpportunityTrigger_deleteCloseWonOpportunity() {
         // Prepare the test data
         Account testAccount = new Account(Name = 'Test Account', Industry = 'Banking');
         insert testAccount;
@@ -563,7 +562,7 @@ public with sharing class TriggerBestPracticeTest {
     * Trigger should only fire on update.
     */
     @IsTest
-    static void testOpportunityTrigger_setPrimaryContact() {
+    private static void testOpportunityTrigger_setPrimaryContact() {
         // Prepare the test data
         List<Account> accountsToInsert = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
